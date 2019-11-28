@@ -1,0 +1,31 @@
+version: "3"
+services:
+  terraform:
+    image: hashicorp/terraform:0.12.16
+    volumes:
+      - ./terraform:/terraform
+      - ${KEY_FILE:-~/.ssh/id_rsa.pub}:/root/.ssh/id_rsa.pub
+    working_dir: /terraform
+    env_file:
+      - config/aws.env
+
+  scripts:
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile
+    volumes:
+      - ./scripts:/scripts
+    working_dir: /scripts
+    environment:
+      - DYNAMODB_ENDPOINT=http://dynamodb-local:8000
+      - TABLE_NAME=hogehoge
+    env_file:
+      - config/localhost.aws.env
+
+  dynamodb-local:
+    image: amazon/dynamodb-local:1.11.477
+    env_file:
+      - config/localhost.aws.env
+    volumes:
+      - ./db/dynamodb-local/:/db/dynamodb-local
+    command: -jar DynamoDBLocal.jar --sharedDb -dbPath /db/dynamodb-local
