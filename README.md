@@ -3,7 +3,7 @@
 ## Setting
 
 ```
-$ git clone git@github.com:a4t/dynamodb_vpc_endpoint_test.git
+$ git clone https://github.com/a4t/dynamodb_vpc_endpoint_test.git
 $ cd dynamodb_vpc_endpoint_test
 ```
 

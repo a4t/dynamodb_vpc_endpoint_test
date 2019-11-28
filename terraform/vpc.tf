@@ -28,7 +28,7 @@ resource "aws_route_table" "r" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block = "${chomp(data.http.myip.body)}/32"
     gateway_id = aws_internet_gateway.igw.id
   }
 
@@ -40,4 +40,18 @@ resource "aws_route_table" "r" {
 resource "aws_route_table_association" "a" {
   subnet_id      = aws_subnet.main.id
   route_table_id = aws_route_table.r.id
+}
+
+resource "aws_vpc_endpoint" "dynamodb" {
+  vpc_id       = aws_vpc.main.id
+  service_name = "com.amazonaws.ap-northeast-1.dynamodb"
+
+  tags = merge(local.common_tags, {
+    Name : "${local.common_name}-dynamodb-gateway"
+  })
+}
+
+resource "aws_vpc_endpoint_route_table_association" "dynamodb" {
+  route_table_id  = aws_route_table.r.id
+  vpc_endpoint_id = aws_vpc_endpoint.dynamodb.id
 }

@@ -8,7 +8,7 @@ resource "aws_instance" "web" {
   instance_type        = local.instance_type
   subnet_id            = aws_subnet.main.id
   key_name             = aws_key_pair.key.key_name
-  iam_instance_profile = aws_iam_instance_profile.ec2_app.id
+  iam_instance_profile = aws_iam_instance_profile.ec2_app.name
 
   vpc_security_group_ids = [
     aws_security_group.app.id
