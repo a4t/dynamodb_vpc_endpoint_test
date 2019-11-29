@@ -32,7 +32,7 @@ resource "aws_instance" "private_app" {
   vpc_security_group_ids = [
     aws_security_group.app.id
   ]
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 
   tags = merge(local.common_tags, {
     Name : "${local.common_name}-app-private"
