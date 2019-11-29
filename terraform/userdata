@@ -2,6 +2,9 @@
 
 yum install -y git
 sudo curl -kL https://bootstrap.pypa.io/get-pip.py | python
+
+mkdir /app
+cd /app
 git clone https://github.com/a4t/dynamodb_vpc_endpoint_test.git
 cd dynamodb_vpc_endpoint_test/scripts
 pip install -r requirements.txt
